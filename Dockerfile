@@ -30,9 +30,23 @@ FROM yegor256/rultor
 MAINTAINER Marvin Froeder <velobr@gmail.com>
 LABEL Description="This is a Rultor.com image with java 8"
 
+# Java Version
+ENV  JAVA_VERSION=9 \
+     JAVA_UPDATE=ea \
+     JAVA_BUILD=178  \
+     JAVA_HOME=/usr/lib/jvm/current-java
 
-RUN add-apt-repository ppa:openjdk-r/ppa -y
-RUN apt-get update -y && \
-    apt-get install openjdk-8-jdk -y
+RUN set -x && \
+  cd /tmp && \
+  wget --header "Cookie: oraclelicense=accept-securebackup-cookie;" \
+        "http://download.java.net/java/jdk9/archive/${JAVA_BUILD}/binaries/jre-${JAVA_VERSION}+${JAVA_BUILD}_linux-x64_bin.tar.gz" && \
+  tar xzf "jre-${JAVA_VERSION}+${JAVA_BUILD}_linux-x64_bin.tar.gz" && \
+  mkdir -p /usr/lib/jvm && mv "/tmp/jre-${JAVA_VERSION}" "/usr/lib/jvm/java-${JAVA_VERSION}-oracle"  && \
+  ln -s "java-${JAVA_VERSION}-oracle" $JAVA_HOME && \
+  rm /usr/bin/java && \
+  ln -s $JAVA_HOME/bin/java /usr/bin/java && \
+  rm -rf $JAVA_HOME/*.txt && \
+  rm -rf $JAVA_HOME/*.html && \
+  java -version
 
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
+ENV JAVA_HOME /usr/lib/jvm/java-9-openjdk-amd64
