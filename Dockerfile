@@ -48,5 +48,3 @@ RUN set -x && \
   rm -rf $JAVA_HOME/*.txt && \
   rm -rf $JAVA_HOME/*.html && \
   java -version
-
-ENV JAVA_HOME /usr/lib/jvm/java-9-openjdk-amd64
