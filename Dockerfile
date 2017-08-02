@@ -48,3 +48,5 @@ RUN set -x && \
   rm -rf $JAVA_HOME/*.txt && \
   rm -rf $JAVA_HOME/*.html && \
   java -version
+
+RUN mvn -v
