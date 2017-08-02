@@ -28,7 +28,7 @@
 
 FROM yegor256/rultor
 MAINTAINER Marvin Froeder <velobr@gmail.com>
-LABEL Description="This is a Rultor.com image with java 8"
+LABEL Description="This is a Rultor.com image with java 9"
 
 # Java Version
 ENV  JAVA_VERSION=9 \
