@@ -50,3 +50,5 @@ RUN set -x && \
   java -version
 
 RUN mvn -v
+
+ENV JAVA_HOME /usr/lib/jvm/java-9-oracle
