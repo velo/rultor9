@@ -33,22 +33,23 @@ LABEL Description="This is a Rultor.com image with java 9"
 # Java Version
 ENV  JAVA_VERSION=9 \
      JAVA_UPDATE=ea \
-     JAVA_BUILD=178  \
-     JAVA_HOME=/usr/lib/jvm/current-java
+     JAVA_BUILD=178
+
+ENV  JAVA_HOME="/usr/lib/jvm/java-${JAVA_VERSION}-oracle"
 
 RUN set -x && \
   cd /tmp && \
   wget --header "Cookie: oraclelicense=accept-securebackup-cookie;" \
-        "http://download.java.net/java/jdk9/archive/${JAVA_BUILD}/binaries/jre-${JAVA_VERSION}+${JAVA_BUILD}_linux-x64_bin.tar.gz" && \
-  tar xzf "jre-${JAVA_VERSION}+${JAVA_BUILD}_linux-x64_bin.tar.gz" && \
-  mkdir -p /usr/lib/jvm && mv "/tmp/jre-${JAVA_VERSION}" "/usr/lib/jvm/java-${JAVA_VERSION}-oracle"  && \
-  ln -s "java-${JAVA_VERSION}-oracle" $JAVA_HOME && \
-  rm /usr/bin/java && \
-  ln -s $JAVA_HOME/bin/java /usr/bin/java && \
+        "http://download.java.net/java/jdk9/archive/${JAVA_BUILD}/binaries/jdk-${JAVA_VERSION}+${JAVA_BUILD}_linux-x64_bin.tar.gz" && \
+  tar xzf "jdk-${JAVA_VERSION}+${JAVA_BUILD}_linux-x64_bin.tar.gz" && \
+  mkdir -p /usr/lib/jvm && mv "/tmp/jdk-${JAVA_VERSION}" "/usr/lib/jvm/java-${JAVA_VERSION}-oracle"  && \
+  update-alternatives --install /usr/bin/java java "$JAVA_HOME/bin/java" 100 && \
   rm -rf $JAVA_HOME/*.txt && \
-  rm -rf $JAVA_HOME/*.html && \
-  java -version
+  rm -rf $JAVA_HOME/*.html  && \
+  rm "/tmp/jdk-${JAVA_VERSION}+${JAVA_BUILD}_linux-x64_bin.tar.gz"
 
-RUN mvn -v
-
-ENV JAVA_HOME /usr/lib/jvm/java-9-oracle
+RUN set -x && \
+  rm -rf /usr/lib/jvm/java-7-openjdk-amd64/ && \
+  update-alternatives --install /usr/bin/java java $JAVA_HOME/bin/java 10000 && \
+  update-alternatives --install /usr/bin/javac javac $JAVA_HOME/bin/javac 10000 && \
+  mvn -v
