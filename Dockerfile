@@ -33,7 +33,7 @@ LABEL Description="This is a Rultor.com image with java 9"
 # Java Version
 ENV  JAVA_VERSION=9 \
      JAVA_UPDATE=ea \
-     JAVA_BUILD=178
+     JAVA_BUILD=181
 
 ENV  JAVA_HOME="/usr/lib/jvm/java-${JAVA_VERSION}-oracle"
 
