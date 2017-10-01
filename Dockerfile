@@ -32,7 +32,7 @@ LABEL Description="This is a Rultor.com image with java 9"
 
 # Java Version
 ENV  JAVA_VERSION=9 \
-     JAVA_UPDATE=ea \
+     JAVA_UPDATE=GA \
      JAVA_BUILD=181
 
 ENV  JAVA_HOME="/usr/lib/jvm/java-${JAVA_VERSION}-oracle"
@@ -40,7 +40,7 @@ ENV  JAVA_HOME="/usr/lib/jvm/java-${JAVA_VERSION}-oracle"
 RUN set -x && \
   cd /tmp && \
   wget --header "Cookie: oraclelicense=accept-securebackup-cookie;" \
-        "http://download.java.net/java/jdk9/archive/${JAVA_BUILD}/binaries/jdk-${JAVA_VERSION}+${JAVA_BUILD}_linux-x64_bin.tar.gz" && \
+        "http://download.java.net/java/${JAVA_UPDATE}/jdk${JAVA_VERSION}/${JAVA_VERSION}/binaries/jdk-${JAVA_VERSION}+${JAVA_BUILD}_linux-x64_bin.tar.gz" && \
   tar xzf "jdk-${JAVA_VERSION}+${JAVA_BUILD}_linux-x64_bin.tar.gz" && \
   mkdir -p /usr/lib/jvm && mv "/tmp/jdk-${JAVA_VERSION}" "/usr/lib/jvm/java-${JAVA_VERSION}-oracle"  && \
   update-alternatives --install /usr/bin/java java "$JAVA_HOME/bin/java" 100 && \
@@ -52,4 +52,5 @@ RUN set -x && \
   rm -rf /usr/lib/jvm/java-7-openjdk-amd64/ && \
   update-alternatives --install /usr/bin/java java $JAVA_HOME/bin/java 10000 && \
   update-alternatives --install /usr/bin/javac javac $JAVA_HOME/bin/javac 10000 && \
+  ln -fs /etc/ssl/certs/java/cacerts /usr/lib/jvm/java-9-oracle/lib/security/cacerts && \
   mvn -v
